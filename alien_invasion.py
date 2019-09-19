@@ -46,6 +46,7 @@ class AlienInvasion:
             self.ship.update()
             self._update_bullets()
             self._update_screen()
+            self._update_aliens()
             #watch for keyboard and mouse events.
             
             #delete old bullets
@@ -53,6 +54,7 @@ class AlienInvasion:
                 if bullet.rect.bottom <= 0:
                     self.bullets.remove(bullet)
             print(len(self.bullets))
+            
             
     def _check_events(self):        
             for event in pygame.event.get():
@@ -95,6 +97,8 @@ class AlienInvasion:
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
         
+    def _update_aliens(self):
+        self.aliens.update()
 
     def _create_fleet(self):
         """create the alien fleet"""
