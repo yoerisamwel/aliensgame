@@ -40,7 +40,7 @@ class AlienInvasion:
         self.bg_color = (230, 230, 230)
     
     def run_game(self):
-        """Start the main loop for the game"""
+        #Start the main loop for the game
         while True:
             self._check_events()
             self.ship.update()
@@ -83,13 +83,13 @@ class AlienInvasion:
              self.ship.moving_left = False
         
     def _fire_bullet(self): 
-        """Create a new bullet and add it to the bullets group."""
+        #Create a new bullet and add it to the bullets group.
 
         new_bullet = Bullet(self)
         self.bullets.add(new_bullet)
 
     def _update_bullets(self):
-        """Update position of bullets and get rid of old bullets."""
+        #Update position of bullets and get rid of old bullets.
         # Update bullet positions.
         self.bullets.update()
 
@@ -98,10 +98,11 @@ class AlienInvasion:
             bullet.draw_bullet()
         
     def _update_aliens(self):
+        self._check_fleet_edges()
         self.aliens.update()
 
     def _create_fleet(self):
-        """create the alien fleet"""
+        #create the alien fleet
         #make a alien
         alien = Alien(self)
         alien_width, alien_height = alien.rect.size
@@ -135,7 +136,7 @@ class AlienInvasion:
         #redraw the screen during each pass through the loop
    
     def _update_screen(self):
-        """update images that are on the screen, and flip to new screen"""
+        #update images that are on the screen, and flip to new screen
         
         self.screen.fill(self.settings.bg_color)
         self.ship.blitme()
@@ -145,6 +146,19 @@ class AlienInvasion:
                     
         #Make the most recently drawn screen visible.
         pygame.display.flip()
+
+    def _check_fleet_edges(self):
+        #respond appropritately when the aliens hit the edge of the screen
+        for alien in self.aliens.sprites():
+            if alien.check_edges():
+                break
+
+    def _change_fleet_direction(self):
+         #drop the fleet and change the direction
+         for alien in self.aliens.sprites():
+             alien.rect.y += self.settings.fleet_drop_speed
+         self.settings.fleet_direction *= -1
+
                 
 if __name__ == '__main__':
     #Make a game instance, and run the game.
